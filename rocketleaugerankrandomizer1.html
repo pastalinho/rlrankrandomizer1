@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket League Rank Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #00b4d8;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 5px rgba(0, 180, 216, 0.5);
+        }
+        .btn {
+            background: linear-gradient(to right, #f72585, #7209b7);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 2rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        .result {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+            margin-top: 1rem;
+        }
+        .rank-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .rank-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            display: block;
+            object-fit: contain;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+        }
+        footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rocket League Rank Generator</h1>
+        <button id="generateBtn" class="btn">Generate Random Rank</button>
+        <div id="result" class="result">
+            <div class="rank-name" id="rankName">Rank Name</div>
+            <img id="rankImage" class="rank-image" src="/api/placeholder/150/150" alt="Rank Image">
+        </div>
+        <footer>Click the button to generate a random Rocket League competitive rank</footer>
+    </div>
+
+    <script>
+        const ranks = [
+            "Unranked",
+            "Bronze I",
+            "Bronze II",
+            "Bronze III",
+            "Silver I",
+            "Silver II",
+            "Silver III",
+            "Gold I",
+            "Gold II",
+            "Gold III",
+            "Platinum I",
+            "Platinum II",
+            "Platinum III",
+            "Diamond I",
+            "Diamond II",
+            "Diamond III",
+            "Champion I",
+            "Champion II",
+            "Champion III",
+            "Grand Champion I",
+            "Grand Champion II",
+            "Grand Champion III",
+            "Supersonic Legend"
+        ];
+        
+        // Image placeholders for each rank (using placeholder images)
+        const rankImages = {
+            "Unranked": "https://i.imgur.com/KVtr3Ma.png/150/150",
+            "Bronze I": "https://i.imgur.com/XMnLeHG.png/150/150",
+            "Bronze II": "https://i.imgur.com/CuAySq7.png/150/150",
+            "Bronze III": "https://i.imgur.com/R2e2HRc.png/150/150",
+            "Silver I": "https://i.imgur.com/UZIBQ7g.png/150/150",
+            "Silver II": "https://i.imgur.com/xh4wh5Q.png/150/150",
+            "Silver III": "https://i.imgur.com/eRZ53HZ.png/150/150",
+            "Gold I": "https://i.imgur.com/4XdJeM0.png/150/150",
+            "Gold II": "https://i.imgur.com/HKIvQuP.png/150/150",
+            "Gold III": "https://i.imgur.com/LCpWXqK.png/150/150",
+            "Platinum I": "https://i.imgur.com/hnzGXlp.png/150/150",
+            "Platinum II": "https://i.imgur.com/aRFs2zJ.png/150/150",
+            "Platinum III": "https://i.imgur.com/qPHznjQ.png/150/150",
+            "Diamond I": "https://i.imgur.com/SGxMHal.png/150/150",
+            "Diamond II": "https://i.imgur.com/rwLfyXA.png/150/150",
+            "Diamond III": "https://i.imgur.com/YsjuKPA.png/150/150",
+            "Champion I": "https://i.imgur.com/pNVm08Q.png/150/150",
+            "Champion II": "https://i.imgur.com/7uAJRd8.png/150/150",
+            "Champion III": "https://i.imgur.com/sJj9dmE.png/150/150",
+            "Grand Champion I": "https://i.imgur.com/uFP4FdQ.png/150/150",
+            "Grand Champion II": "https://i.imgur.com/veNxXoZ.png/150/150",
+            "Grand Champion III": "https://i.imgur.com/cuUzGgf.png/150/150",
+            "Supersonic Legend": "https://i.imgur.com/h5oscwB.png/150/150"
+        };
+        
+        // Generate a random rank
+        function generateRank() {
+            const randomIndex = Math.floor(Math.random() * ranks.length);
+            const selectedRank = ranks[randomIndex];
+            
+            // Update the UI
+            document.getElementById('rankName').textContent = selectedRank;
+            document.getElementById('rankImage').src = rankImages[selectedRank];
+            document.getElementById('rankImage').alt = selectedRank + " Rank";
+            
+            // Show the result
+            document.getElementById('result').style.display = 'block';
+            
+            // Add animation effects
+            document.getElementById('rankName').style.animation = 'none';
+            document.getElementById('rankName').offsetHeight; // Trigger reflow
+            document.getElementById('rankName').style.animation = 'fadeIn 0.5s ease-in-out';
+        }
+        
+        // Add event listener to the button
+        document.getElementById('generateBtn').addEventListener('click', generateRank);
+        
+        // Add animation to CSS
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
